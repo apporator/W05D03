@@ -16,14 +16,14 @@ class QuestionLike
     def self.likers_for_question_id(q_id)
         data = PlayDBConnection.instance.execute(<<-SQL, q_id)
             SELECT
-                questions.*
+                users.*
             FROM
                 question_likes
-            JOIN questions ON questions.id = question_likes.question_id
+            JOIN users ON users.id = question_likes.user_id
             WHERE question_likes.question_id = ?
         SQL
 
-        data.map { |ele| Question.new(ele) }
+        data.map { |ele| User.new(ele) }
     end
 
     def self.num_likes_for_question_id(q_id)
@@ -34,7 +34,18 @@ class QuestionLike
             WHERE question_id = ?
         SQL
 
-        debugger
         data[0]['ct']
+    end
+
+    def self.liked_questions_for_user_id(u_id)
+        data = PlayDBConnection.instance.execute(<<-SQL, u_id)
+            SELECT
+                questions.*
+            from question_likes
+            JOIN questions ON questions.id = question_likes.question_id
+            WHERE question_likes.user_id = ?
+        SQL
+
+        data.map {|ele| Question.new(ele)}
     end
 end
