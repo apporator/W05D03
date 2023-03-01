@@ -36,6 +36,17 @@ class Reply
         Reply.new(data.first) if result?(data)
     end
 
+    def self.find_by_user_id(u_id)
+        data = PlayDBConnection.instance.execute(<<-SQL, u_id)
+            SELECT
+            *
+            FROM replies
+            WHERE user_id = ?
+        SQL
+        # debugger
+        data.map {|element| Reply.new(element)} if Reply.result?(data)
+    end
+
     def self.find_by_question_id(question_id)
         # debugger
         data = PlayDBConnection.instance.execute(<<-SQL, question_id)
@@ -45,7 +56,7 @@ class Reply
             WHERE question_id = ?
         SQL
         # debugger
-        data.map {|element| Reply.new(element)}
+        data.map {|element| Reply.new(element)} if Reply.result?(data)
     end
 
     def get_parent_reply

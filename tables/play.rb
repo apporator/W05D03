@@ -4,6 +4,7 @@ require 'byebug'
 require_relative 'questions.rb'
 require_relative 'reply.rb'
 require_relative 'user.rb'
+require_relative 'question_follow.rb'
 
 class PlayDBConnection < SQLite3::Database
     include Singleton

@@ -33,7 +33,7 @@ class Question
             WHERE user_id = ?
         SQL
 
-        Question.new(data.first) if result?(data)
+        data.map {|element| Question.new(element)} if result?(data)
     end
 
     def self.result?(data)
