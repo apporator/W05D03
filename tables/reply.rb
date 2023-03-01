@@ -1,3 +1,4 @@
+
 class Reply
 
     attr_accessor :id, :question_id, :parent_reply, :user_id, :body
@@ -24,18 +25,54 @@ class Reply
     end
 
     def self.find_by_id(id)
+        # debugger
         data = PlayDBConnection.instance.execute(<<-SQL, id)
             SELECT
             *
             FROM replies
             WHERE id = ?
         SQL
-
+        # debugger
         Reply.new(data.first) if result?(data)
     end
 
-    def parent_reply
+    def self.find_by_question_id(question_id)
+        # debugger
+        data = PlayDBConnection.instance.execute(<<-SQL, question_id)
+            SELECT
+            *
+            FROM replies
+            WHERE question_id = ?
+        SQL
+        # debugger
+        data.map {|element| Reply.new(element)}
+    end
+
+    def get_parent_reply
         Reply.find_by_id(self.parent_reply)
+    end
+
+    def child_replies
+        # Reply.find_by_id(self.parent_reply) if parent_reply
+        data = PlayDBConnection.instance.execute(<<-SQL, id)
+            SELECT
+            *
+            FROM
+                replies
+            WHERE
+                parent_reply = ?
+        SQL
+
+        Reply.new(data.first) if Reply.result?(data)
+    end
+
+    def result?(data)
+        if data.empty?
+            puts "No entry found."
+            return false
+        else
+            return true
+        end
     end
 
     def self.result?(data)
@@ -45,9 +82,5 @@ class Reply
         else
             return true
         end
-    end
-
-    def child_replies
-        # Reply.find_by_id(self.parent_reply) if parent_reply
     end
 end

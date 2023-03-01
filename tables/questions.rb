@@ -1,4 +1,5 @@
 class Question
+    attr_accessor :id, :title, :body, :user_id
     # include TableHelper
 
     def self.all
@@ -56,7 +57,7 @@ class Question
     end
 
     def replies
-        #todo after Replies
+        Reply.find_by_question_id(self.id)
     end
 end
 

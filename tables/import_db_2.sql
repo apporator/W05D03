@@ -81,6 +81,11 @@ INSERT INTO
 VALUES
     ((SELECT id FROM questions WHERE title = 'Setup terminal'), NULL, (SELECT id FROM users WHERE fname = 'Jhon'), 'I am having this problem.');
 
+INSERT INTO
+    replies(question_id, parent_reply, user_id, body)
+VALUES
+    ((SELECT id FROM questions WHERE title = 'Setup terminal'), (SELECT id FROM replies WHERE body = 'I am having this problem.'), (SELECT id FROM users WHERE fname = 'Henry'), 'It is so annoying!');
+
 
 INSERT INTO
     question_likes(user_id, question_id)
