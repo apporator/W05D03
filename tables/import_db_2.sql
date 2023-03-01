@@ -73,7 +73,10 @@ VALUES
 INSERT INTO
     question_follows(question_id, user_id)
 VALUES
-    ((SELECT id FROM questions WHERE title = 'Setup terminal'), (SELECT id FROM users WHERE fname = 'Jhon'));
+    ((SELECT id FROM questions WHERE title = 'Setup terminal'), (SELECT id FROM users WHERE fname = 'Henry')),
+    ((SELECT id FROM questions WHERE title = 'Setup terminal'), (SELECT id FROM users WHERE fname = 'Jhon')),
+    ((SELECT id FROM questions WHERE title = 'Login to AAO'), (SELECT id FROM users WHERE fname = 'Henry')),
+    ((SELECT id FROM questions WHERE title = 'Login to AAO'), (SELECT id FROM users WHERE fname = 'Jhon'));
 
 
 INSERT INTO
