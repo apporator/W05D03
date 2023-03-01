@@ -53,7 +53,7 @@ class QuestionFollow
             FROM question_follows
             LEFT JOIN questions ON question_follows.question_id = questions.id
             GROUP BY question_id
-            ORDER BY COUNT(question_id) DESC
+            ORDER BY COUNT(*) DESC
             LIMIT ?;
         SQL
 

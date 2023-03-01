@@ -48,4 +48,20 @@ class QuestionLike
 
         data.map {|ele| Question.new(ele)}
     end
+
+    def self.most_liked_questions(n)
+        data = PlayDBConnection.instance.execute(<<-SQL, n)
+            SELECT
+                questions.id, questions.title, questions.body, questions.user_id
+            FROM question_likes
+            JOIN questions ON questions.id = question_likes.question_id
+            GROUP BY questions.id, questions.title, questions.body, questions.user_id
+            ORDER BY count(*) DESC
+            LIMIT ?;
+        SQL
+
+        data.map { |ele| Question.new(ele) }
+    end
+
+
 end

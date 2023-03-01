@@ -64,4 +64,10 @@ class User
     def liked_questions
         QuestionLike.liked_questions_for_user_id(self.id)
     end
+
+    def average_karma
+        data = PlayDBConnection.instance.execute(<<-SQL, self.id)
+            
+        SQL
+    end
 end

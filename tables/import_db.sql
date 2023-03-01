@@ -93,4 +93,6 @@ VALUES
 INSERT INTO
     question_likes(user_id, question_id)
 VALUES
+    ((SELECT id FROM users WHERE fname = 'Henry'), (SELECT id FROM questions WHERE title = 'Login to AAO')),
+    ((SELECT id FROM users WHERE fname = 'Jhon'), (SELECT id FROM questions WHERE title = 'Login to AAO')),
     ((SELECT id FROM users WHERE fname = 'Henry'), (SELECT id FROM questions WHERE title = 'Setup terminal'));
