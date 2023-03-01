@@ -37,8 +37,6 @@ class QuestionFollow
         data.map { |pair| Question.find_by_id(pair['question_id']) } if result?(data)
     end
 
-    
-
     def self.result?(data)
         if data.empty?
             puts "No entry found."
@@ -46,5 +44,19 @@ class QuestionFollow
         else
             return true
         end
+    end
+
+    def self.most_followed_questions(n)
+        data = PlayDBConnection.instance.execute(<<-SQL, n)     
+            SELECT
+                questions.*
+            FROM question_follows
+            LEFT JOIN questions ON question_follows.question_id = questions.id
+            GROUP BY question_id
+            ORDER BY COUNT(question_id) DESC
+            LIMIT ?
+        SQL
+
+        data.map {|ele| Question.new(ele)} if result?(data)
     end
 end
