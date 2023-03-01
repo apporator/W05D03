@@ -54,9 +54,10 @@ class QuestionFollow
             LEFT JOIN questions ON question_follows.question_id = questions.id
             GROUP BY question_id
             ORDER BY COUNT(question_id) DESC
-            LIMIT ?
+            LIMIT ?;
         SQL
 
         data.map {|ele| Question.new(ele)} if result?(data)
     end
+
 end
