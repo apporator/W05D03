@@ -66,18 +66,18 @@ class User
     end
 
     def average_karma
+        return nil if self.authored_questions.empty?
         # count of likes / #count of questions
         data = PlayDBConnection.instance.execute(<<-SQL, self.id)
             SELECT
-                users.fname,
-                COUNT(questions.id) as q_ct,
-                COUNT(question_likes.id) as l_ct
+                COUNT(DISTINCT question_likes.id)/ cast ( COUNT(DISTINCT question_likes.question_id) as float) as avg_q  
             FROM users
             LEFT JOIN questions on questions.user_id = users.id
             LEFT JOIN question_likes on question_likes.question_id = questions.id
-            GROUP BY users.fname;
+            WHERE users.id = ?;
         SQL
 
+        data[0]['avg_q']
         # c1 = user id, c2 = number of questions THEY asked, c3 = number of likes their questions have gotten
     end
 end
