@@ -80,4 +80,31 @@ class User
         data[0]['avg_q']
         # c1 = user id, c2 = number of questions THEY asked, c3 = number of likes their questions have gotten
     end
+
+    def save
+        return false if self.id
+
+        data = PlayDBConnection.instance.execute(<<-SQL, self.fname, self.lname)
+        INSERT INTO
+            users(fname, lname)
+        VALUES
+            (?,?)
+        SQL
+
+        return self
+    end
+
+    def update
+        return false if self.id.nil?
+
+        data = PlayDBConnection.instance.execute(<<-SQL, self.fname, self.lname, self.id)
+            UPDATE
+                users
+            SET
+                fname = ?, lname = ?
+            where id = ?
+        SQL
+
+        return self
+    end
 end

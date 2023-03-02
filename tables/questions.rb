@@ -75,6 +75,33 @@ class Question
     def num_likes
         QuestionLike.num_likes_for_question_id(self.id)
     end
+# update these
+    def save
+        return false if self.id
+
+        data = PlayDBConnection.instance.execute(<<-SQL, self.title, self.body, self.user_id)
+        INSERT INTO
+            questions(title, body, user_id)
+        VALUES
+            (?,?,?)
+        SQL
+
+        return self
+    end
+
+    def update
+        return false if self.id.nil?
+
+        data = PlayDBConnection.instance.execute(<<-SQL, self.title, self.body, self.user_id, self.id)
+            UPDATE
+                questions
+            SET
+                title = ?, body = ?, user_id = ?
+            where id = ?
+        SQL
+
+        return self
+    end
 end
 
 
