@@ -94,4 +94,31 @@ class Reply
             return true
         end
     end
+
+    def save
+        return false if self.id
+
+        data = PlayDBConnection.instance.execute(<<-SQL, self.question_id, self.parent_reply, self.user_id, self.body)
+        INSERT INTO
+            replies(question_id, parent_reply, user_id, body)
+        VALUES
+            (?,?,?,?)
+        SQL
+
+        return self
+    end
+
+    def update
+        return false if self.id.nil?
+
+        data = PlayDBConnection.instance.execute(<<-SQL, self.question_id, self.parent_reply, self.user_id, self.body, self.id)
+            UPDATE
+                replies
+            SET
+                question_id = ?, parent_reply = ?, user_id = ?, body = ?
+            where id = ?
+        SQL
+
+        return self
+    end
 end
