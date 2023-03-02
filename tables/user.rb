@@ -1,13 +1,13 @@
-class User
-    # @@table_name = 'users'
-    # include TableHelper
+class User < Table
+    @@table_name = 'users'
 
     attr_accessor :id, :fname, :lname, :table_name
 
-    def self.all
-        data = PlayDBConnection.instance.execute("SELECT * FROM users")
-        data.map {|element| User.new(element)}
+    def self.table_name
+        return @@table_name
     end
+
+    
 
     def initialize(options)
         @id = options['id']

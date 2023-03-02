@@ -1,12 +1,13 @@
 
-class Reply
+class Reply < Table
 
     attr_accessor :id, :question_id, :parent_reply, :user_id, :body
 
-    def self.all
-        data = PlayDBConnection.instance.execute("SELECT * FROM replies")
-        data.map {|element| Reply.new(element)}
+    def self.table_name
+        return @@table_name
     end
+
+    @@table_name = 'replies'
 
     def initialize(options)
         @id = options['id']

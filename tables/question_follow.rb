@@ -1,11 +1,13 @@
-class QuestionFollow
+class QuestionFollow < Table
 
     attr_accessor :id, :question_id, :user_id
+    # attr_reader :table_name
 
-    def self.all
-        data = PlayDBConnection.instance.execute("SELECT * FROM question_follows")
-        data.map {|element| QuestionFollow.new(element)}
+    def self.table_name
+        return @@table_name
     end
+
+    @@table_name = 'question_follows'
 
     def initialize(options)
         @id = options['id']

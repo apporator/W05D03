@@ -1,11 +1,12 @@
-class Question
+class Question < Table
     attr_accessor :id, :title, :body, :user_id
-    # include TableHelper
 
-    def self.all
-        data = PlayDBConnection.instance.execute("SELECT * FROM questions")
-        data.map {|element| Question.new(element)}
+    def self.table_name
+        return @@table_name
     end
+
+    @@table_name = 'questions'
+    # include TableHelper
 
     def initialize(options)
         @id = options['id']

@@ -1,6 +1,7 @@
 require 'sqlite3'
 require 'singleton'
 require 'byebug'
+require_relative 'table.rb'
 require_relative 'questions.rb'
 require_relative 'reply.rb'
 require_relative 'user.rb'

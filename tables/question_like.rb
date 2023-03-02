@@ -1,11 +1,12 @@
-class QuestionLike
+class QuestionLike < Table
 
     attr_accessor :id, :user_id, :question_id
 
-    def self.all
-        data = PlayDBConnection.instance.execute("SELECT * FROM question_likes")
-        data.map {|element| QuestionLike.new(element)}
+    def self.table_name
+        return @@table_name
     end
+
+    @@table_name = 'question_likes'
 
     def initialize(options)
         @id = options['id']
